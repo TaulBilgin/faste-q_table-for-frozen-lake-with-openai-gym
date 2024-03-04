@@ -4,22 +4,13 @@ import random
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(device)
-"""
-gecmis 
-simdi
-gelecek 
-verilerini tut
-"""
+
 env = gym.make('FrozenLake-v1',  render_mode="human", is_slippery=False)
-
-
-
 
 action_space_size = env.action_space.n
 state_space_size =  env.observation_space.n
 
 q_table = torch.zeros(state_space_size, action_space_size).to(device) # Q value table
-
 
 
 for _ in range(10):
@@ -38,14 +29,15 @@ for _ in range(10):
                 stop = True
                 steps = 0
                 
-        while not done: # while not done:
+        while not done: 
             if stop == True:
                 steps += 1
             item_of_0 = []
             item_of_2 = []
             item_of_1 = []
             now_state = now[0]
-        
+            
+           # decide to what move
             for i in range(4):
                 if q_table[now_state][i] == 0:
                     item_of_0.append(i)
@@ -64,7 +56,8 @@ for _ in range(10):
 
             elif len(item_of_2) == 0:
                 action = random.choice(item_of_0)
-                
+
+            # change to q_table by movement
             future = env.step(action)
             future_state = future[0]
             future_reward = future[1]
